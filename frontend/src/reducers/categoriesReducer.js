@@ -19,8 +19,8 @@ export default function categoriesReducer(state = initialState, action) {
       return {
         ...state,
         status: {
-          loading: false,
-          error: null
+          ...state.status,
+          loading: true,
         },
       };
     case FETCH_CATEGORIES_SUCCESS:
@@ -30,8 +30,8 @@ export default function categoriesReducer(state = initialState, action) {
           {}
         ),
         status: {
+          ...state.status,
           loading: false,
-          error: null
         },
       };
 
@@ -39,7 +39,7 @@ export default function categoriesReducer(state = initialState, action) {
       return {
         status: {
           loading: false,
-          error: true
+          error: true,
         },
       };
     default:
