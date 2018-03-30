@@ -1,7 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+
 import { fetchCategories } from './actions/categoriesActions';
+
+import HomePage            from './components/HomePage';
+import PostFormPage        from './components/PostFormPage';
+
+import CategoriesPageContainer from './containers/CategoriesPageContainer';
+import PostPageContainer       from './containers/PostPageContainer';
 import './App.css';
 
 class App extends Component {
@@ -12,7 +20,16 @@ class App extends Component {
 
   render() {
     return (
-      <div>app</div>
+      <BrowserRouter>
+        <Switch>
+          <Route exact path="/" component={HomePage} />
+          <Route exact path="/addpost" component={PostFormPage} />
+          <Switch>
+             <Route exact path="/:categoryUrl" component={CategoriesPageContainer} />
+             <Route path="/:categoryUrl/:postId/:postSlug" component={PostPageContainer}/>
+          </Switch>
+        </Switch>
+      </BrowserRouter>
     );
   }
 }
