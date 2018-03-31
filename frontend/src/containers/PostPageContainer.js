@@ -1,12 +1,25 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import Header from '../components/Header';
 
-const PostPageContainer = () => (
-      <ul>
-        <li>post 1</li>
-        <li>post 2</li>
-        <li>post 3</li>
-      </ul>
-);
+class PostPageContainer extends Component {
+  render() {
+    return (
+      <Header />
+    )
+ }
+};
 
-export default PostPageContainer;
+PostPageContainer.propTypes = {
+  selectedPost: PropTypes.array,
+
+};
+
+const mapStateToProps = (state, ownProps) => ({
+  state:state,
+});
+
+
+
+export default connect(mapStateToProps)(PostPageContainer);
