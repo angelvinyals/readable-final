@@ -1,14 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Header from './Header';
-import PostPageContainer from '../containers/PostPageContainer'
+import NavBarContainer from '../containers/NavBarContainer'
 import SortContainer from '../containers/SortContainer'
+import RootPageContainer from '../containers/RootPageContainer'
+
 
 const HomePage = () => (
-    <div>
+    <div className="App">
       <Header /> {/*Title*/}
-      <SortContainer /> {/*(old/new) (+vOTE/-VOTE)*/}
-      <PostPageContainer /> {/*postlist*/}
+      <NavBarContainer /> {/*Nav Bar Categories*/}
+      <SortContainer /> {/*NavBar to sort post by..*/}
+      <RootPageContainer /> {/*postlist*/}
     </div>
 );
 

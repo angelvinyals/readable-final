@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Header = () => (
-  <div>
-    <div>READABLE</div>
-    <div>all react redux udacity</div>
-  </div>
 
+const Header = () => (
+  <div className="containerFlex">
+    <div className = "row one_row H_100 H_center V_center">
+      <h4 className="textCenter">READABLE</h4>
+    </div>
+  </div>
 );
 
 Header.PropTypes={
