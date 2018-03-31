@@ -1,13 +1,15 @@
 import React from 'react';
 import Header from '../components/Header';
-import PostPageContainer from './PostPageContainer'
+import NavBarContainer from './NavBarContainer'
+import RootPageContainer from './RootPageContainer'
 import SortContainer from './SortContainer'
 
 const CategoriesPageContainer = () => (
-  <div>
+  <div className="App">
     <Header /> {/*Title*/}
+    <NavBarContainer /> {/*Nav Bar Categories*/}
     <SortContainer /> {/*(old/new) (+vOTE/-VOTE)*/}
-    <PostPageContainer /> {/*postlist filtered by category*/}
+    <RootPageContainer /> {/*postlist filtered by category*/}
   </div>
 
 );

@@ -1,7 +1,12 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-
+import { connect } from 'react-redux';
+import { fetchPosts } from '../actions/postsActions';
 class RootPageContainer extends Component {
+
+  componentDidMount() {
+    this.props.getPosts();
+  }
 
   render() {
     return (
@@ -18,5 +23,8 @@ RootPageContainer.propTypes = {
   posts: PropTypes.array.isRequired,
 };
 
+const mapDispatchToProps = dispatch => ({
+  getPosts: () => dispatch(fetchPosts()),
+});
 
-export default RootPageContainer;
+export default connect(null, mapDispatchToProps)(RootPageContainer);

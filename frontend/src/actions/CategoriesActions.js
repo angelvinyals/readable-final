@@ -1,7 +1,7 @@
 import {
   FETCH_CATEGORIES_BEGIN,
   FETCH_CATEGORIES_SUCCESS,
-  FETCH_CATEGORIES_ERROR
+  FETCH_CATEGORIES_ERROR,
 } from './actionTypes'
 
 import { getCategories } from '../utils/api';

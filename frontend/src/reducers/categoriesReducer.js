@@ -25,10 +25,7 @@ export default function categoriesReducer(state = initialState, action) {
       };
     case FETCH_CATEGORIES_SUCCESS:
       return {
-        ...categories.reduce(
-          (newObj, cat) => ({ ...newObj, [cat.name]: cat }),
-          {}
-        ),
+        ...categories.reduce((newObj, cat) => ({ ...newObj, [cat.name]: cat }),{}),
         status: {
           ...state.status,
           loading: false,
