@@ -9,44 +9,13 @@ import {
   validPostUrl,
 } from './postsSelectors';
 
-const postsReducer = {
-  '8xf0y6ziyjabvozdd253nd': {
-      "id": "8xf0y6ziyjabvozdd253nd",
-      "timestamp": 1467166872634,
-      "title": "Udacity is the best place to learn React",
-      "body": "Everyone says so after all.",
-      "author": "thingtwo",
-      "category": "react",
-      "voteScore": 6,
-      "deleted": false,
-      "commentCount": 2
-  },
-  '6ni6ok3ym7mf1p33lnez': {
-      "id": "6ni6ok3ym7mf1p33lnez",
-      "timestamp": 1468479767190,
-      "title": "Learn Redux in 10 minutes!",
-      "body": "Just kidding. It takes more than 10 minutes to learn technology.",
-      "author": "thingone",
-      "category": "redux",
-      "voteScore": -5,
-      "deleted": false,
-      "commentCount": 0
-  },
-  postStatus: {
-    error: false,
-    loading: false,
-  },
-};
-
-
 
 describe('selectors for posts', () => {
   it('should fail gracefully if posts are undefined', () => {
     const selectedState = {
-      postsReducer: {
         postStatus: { error: true, loading: false },
-      },
-    };
+      };
+
     const expectedValue = [];
     expect(getFilteredPosts(selectedState)).toEqual(expectedValue);
   });
@@ -74,10 +43,7 @@ describe('selectors for posts', () => {
             "deleted": false,
             "commentCount": 0
         },
-        postStatus: {
-          error: false,
-          loading: false,
-        },
+        postStatus: { error: false, loading: false},
       };
 
     const expectedArray = [
@@ -108,8 +74,8 @@ describe('selectors for posts', () => {
   });
 
   it('should select posts as an array', () => {
-    const selectedState ={
-      postsReducer: {
+    const selectedState = {
+
         '8xf0y6ziyjabvozdd253nd': {
             "id": "8xf0y6ziyjabvozdd253nd",
             "timestamp": 1467166872634,
@@ -136,8 +102,7 @@ describe('selectors for posts', () => {
           error: false,
           loading: false,
         },
-      }
-    };
+      };
     const expectedShape = [
        {
           "id": "8xf0y6ziyjabvozdd253nd",

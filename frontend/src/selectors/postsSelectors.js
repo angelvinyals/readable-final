@@ -1,4 +1,4 @@
-export const getFilteredPosts = ({postsReducer}) => {
+export const getFilteredPosts = (postsReducer) => {
   console.log(postsReducer)
   if (postsReducer.postStatus.loading === true || postsReducer.postStatus.error === true) {
     return [];
