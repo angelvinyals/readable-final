@@ -39,7 +39,7 @@ const NavBarContainer = ({ categories, categoryError, categoryLoading }) => {
 NavBarContainer.propTypes = {
   categories: PropTypes.array.isRequired,
   categoryLoading: PropTypes.bool.isRequired,
-  categoryError: PropTypes.bool.isRequired,
+  categoryError: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
