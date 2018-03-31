@@ -1,10 +1,75 @@
 .App {
+
+  padding-left: 1em;
+}
+
+.containerFlex{
+  display:flex;/* or inline-flex */
+}
+.row{
+  flex-direction: row;
+}
+
+.column{
+  flex-direction: column;
+}
+
+.multiple_rows{
+  flex-wrap: wrap;
+}
+
+.one_row{
+  flex-wrap:nowrap;
+}
+
+.H_start{
+  justify-content: flex-start;
+}
+
+.H_center{
+  justify-content: center;
+}
+
+.H_end{
+  justify-content: flex-end;
+}
+
+.V_start{
+  align-items: flex-start;
+}
+
+.V_end{
+  align-items: flex-end;
+}
+
+.V_center{
+  align-items: center;
+}
+
+.V_start{
+  align-items: flex-start;
+}
+
+.H_100{
+  width: 100%;
+}
+.size{
+  flex:0 1 auto;
+}
+
+.textCenter{
   text-align: center;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+.space_evently{
+  justify-content: space-around;
+}
+
+.active{
+  color:red;
+}
+a{
+  padding: 10px;
 }
 
 .App-header {
