@@ -68,7 +68,9 @@
 .space_evently{
   justify-content: space-around;
 }
-
+.no_active{
+  color:black;
+}
 .active{
   color:red;
 }

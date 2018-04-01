@@ -20,6 +20,8 @@ class RootPageContainer extends Component {
         {posts===[] && <div>there is no POSTS yet</div>}
         {errorLoadingPosts === null &&
           <ul>
+            <h5 className= "margin-top04em margin-bottom1em">POST LIST</h5>
+
             {posts.map((p) => <PostView post={p} key={p.id} homeFlag />)}
           </ul>
         }
@@ -38,7 +40,7 @@ const mapStateToProps = ({postsReducer}, {filter}) => {
   return ({
   errorLoadingPosts: postsReducer.postStatus.error,
   isPostsLoading: postsReducer.postStatus.loading,
-  posts: getFilteredPosts(postsReducer,filter),
+  posts: getFilteredPosts(postsReducer,filter,),
 })};
 
 const mapDispatchToProps = dispatch => ({

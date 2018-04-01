@@ -32,9 +32,9 @@ class PostView extends Component {
     return (
     <div>
       <div>
-        <span onClick={() => userVotePost(post.id, 'upVote', 'posts')}>+ </span>
+        <button onClick={() => userVotePost(post.id, 'upVote', 'posts')}>+ </button>
         {post.voteScore}
-        <span onClick={() => userVotePost(post.id, 'downVote', 'posts')}> - </span>
+        <button onClick={() => userVotePost(post.id, 'downVote', 'posts')}> - </button>
         <Link to={`/${post.category}/${post.id}`}>
           {post.title}
         </Link>
