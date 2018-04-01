@@ -21,7 +21,6 @@ class RootPageContainer extends Component {
         {errorLoadingPosts === null &&
           <ul>
             <h5 className= "margin-top04em margin-bottom1em">POST LIST</h5>
-
             {posts.map((p) => <PostView post={p} key={p.id} homeFlag />)}
           </ul>
         }

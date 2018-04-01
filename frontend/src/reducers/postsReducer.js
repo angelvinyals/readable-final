@@ -8,6 +8,10 @@ import {
   SORT_BY_HIGHEST_VOTE,
   SORT_BY_LOWEST_VOTE,
 
+  DELETE_POST_REQUEST,
+  DELETE_POST,
+  DELETE_POST_CANCEL,
+
 } from '../actions/actionTypes';
 
 const initialState = {
@@ -97,6 +101,38 @@ export default function postsReducer(state = initialState, action){
           lowest: true,
         },
       };
+    case DELETE_POST_REQUEST:
+      return {
+        ...state,
+        postStatus: {
+          ...state.postStatus,
+          requestDelete: true,
+          idPostToBeDeleted: action.id
+        },
+      };
+      case DELETE_POST_CANCEL:
+        return {
+          ...state,
+          postStatus: {
+            ...state.postStatus,
+            requestDelete: false,
+            idPostToBeDeleted: null
+          },
+        };
+      case DELETE_POST:
+        return {
+          ...state,
+          [action.id]:{
+            ...state[action.id],
+            deleted:true
+          },
+          postStatus: {
+            ...state.postStatus,
+            requestDelete: false,
+            idPostToBeDeleted: null
+          },
+        };
+
     default:
       return state
   }

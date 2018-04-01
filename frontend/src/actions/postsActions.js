@@ -8,6 +8,10 @@ import {
   SORT_BY_HIGHEST_VOTE,
   SORT_BY_LOWEST_VOTE,
 
+  DELETE_POST_REQUEST,
+  DELETE_POST,
+  DELETE_POST_CANCEL,
+
 } from './actionTypes'
 
 import { getPosts } from '../utils/api';
@@ -56,4 +60,20 @@ export const userRequestSortByHighestVote = () => ({
 
 export const userRequestSortByLowestVote = () => ({
   type: SORT_BY_LOWEST_VOTE,
+});
+
+//DELETE POSTS.......................................
+export const deletePostRequest = id => ({
+  type: DELETE_POST_REQUEST,
+  id,
+});
+
+export const deletePost = id => ({
+  type: DELETE_POST,
+  id,
+});
+
+export const deletePostCancel = id => ({
+  type: DELETE_POST_CANCEL,
+  id,
 });
