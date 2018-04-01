@@ -6,6 +6,7 @@ import {v4} from 'uuid';
 export const CategoriesList = ({categories, handleToggle, handleRemove}) => (
 
     <div >
+      <h5>Filter by categories:</h5>
       <CategoriesItem
         key='all'
         id='all'

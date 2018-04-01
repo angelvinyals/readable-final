@@ -4,7 +4,7 @@ import FilterLink  from './FilterLink'
 
 export const CategoriesItem = ({filter,name}) => (
 
-		<FilterLink filter={name}>{name}</FilterLink>
+		<button><FilterLink filter={name}>{name}</FilterLink></button>
 
 )
 

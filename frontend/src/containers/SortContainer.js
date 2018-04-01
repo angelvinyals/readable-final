@@ -22,7 +22,7 @@ const SortContainer = ({
   return(
   <div className="margin-top04em margin-bottom0">
     <h5>Sort posts:</h5>
-    <div className="listH margin-bottom0 margin-top04em">
+    <div className="listH margin-bottom0">
       <ul>
         <span>first: </span>
         <button className={highlightTabNewest? 'active' : 'no_active'} onClick={() => sortByNewest()}> new </button>
@@ -34,7 +34,7 @@ const SortContainer = ({
         <button className={highlightTabLowest?  'active' : 'no_active'} onClick={() => sortByLowestVotes() }> Lowest </button>
       </ul>
     </div>
-    <hr className="margin-bottom04em margin-top04em"/>
+    <hr className="margin-bottom04em margin-top04em hr-double"/>
   </div>
 );
 }

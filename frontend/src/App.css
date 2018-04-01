@@ -74,8 +74,8 @@
 .active{
   color:red;
 }
-a{
-  padding: 10px;
+button{
+  padding:0 10px 0 10px;
 }
 
 .listH{
@@ -85,9 +85,7 @@ a{
 
 .listH li {
   padding: 10px;
-
 }
-
 
 .margin-bottom0{
   margin-bottom: 0px;
@@ -135,8 +133,35 @@ a{
   padding-left: 1em;
 }
 
-hr{
-  margin: 0em 0 0.2em 0;
+.padding-left-10px{
+  padding-left: -10px;
+}
+
+.hr-solid{
+  border-top: 1px solid #8c8b8b;
+}
+.hr-double{
+  border-top: 3px double #8c8b8b;
+}
+.hr-dashed {
+  border-top: 1px dashed #8c8b8b;
+}
+.hr-dashed-bold{
+  background-color: #fff;
+	border-top: 2px dashed #8c8b8b;
+}
+
+.font-size2em{
+  font-size: 2em;
+}
+.font-size1em{
+  font-size: 1em;
+}
+.font-size07em{
+  font-size: 0.7em;
+}
+.font-bold{
+  font-weight: bold;
 }
 
 @keyframes App-logo-spin {

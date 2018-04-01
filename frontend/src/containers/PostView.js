@@ -37,26 +37,21 @@ class PostView extends Component {
 
     return (
     <div>
-      <div>
+      <div className="margin-bottom04em">
+        <Link to={`/${post.category}/${post.id}`}>
+          <label className="font-size2em font-bold margin-bottom1em padding-left-10px"> {post.title}</label>
+        </Link>
+      </div>
+      <div className="margin-bottom04em">
         <button onClick={() => userVotePost(post.id, 'upVote', 'posts')}>+ </button>
-        {post.voteScore}
+        <label className="font-size1em font-bold"> {post.voteScore} </label>
         <button onClick={() => userVotePost(post.id, 'downVote', 'posts')}> - </button>
-        <Link to={`/${post.category}/${post.id}`}>
-          {post.title}
-        </Link>
-      </div>
-      <div>
-        Submitted {distanceInWordsToNow(post.timestamp)} ago by{' '}
-        {post.author} to{' '}
-        <Link to={`/${post.category}`}>
-          {`r/${post.category}`}
-        </Link>
-      </div>
-      {!homeFlag && post.body}
-      <div>
-        <Link to={`/${post.category}/${post.id}`}>
-          {post.commentCount} comments
-        </Link>
+        <label className="font-size07em padding-left1em">
+          Submitted {distanceInWordsToNow(post.timestamp)} ago by{' '}{post.author} to{' '}
+          <Link to={`/${post.category}`}>
+            {`r/${post.category}`}
+          </Link>
+        </label>
         <Link to="/newpost">
           <button>
             edit
@@ -72,13 +67,22 @@ class PostView extends Component {
             <button onClick={() => cancelDeletePostRequest(post.id)}>No</button>
           </div>
         }
+        {!homeFlag && post.body}
+      </div>
+      {!homeFlag && post.body}
+      <div>
+
+        <hr className=" margin-bottom04em margin-top04em hr-dashed"/>
+        <Link to={`/${post.category}/${post.id}`}>
+          {post.commentCount} comments
+        </Link>
         {commentsFlag && (
           <Fragment>
 
             <div>Comments:</div>
           </Fragment>
         )}
-          <hr />
+          <hr className="margin-bottom04em margin-top04em hr-dashed-bold"/>
       </div>
 
     </div>
