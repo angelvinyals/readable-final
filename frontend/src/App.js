@@ -27,14 +27,14 @@ class App extends Component {
         <Switch>
           {/*<Route exact path="/" component={HomePage} />*/}
           <Route exact path="/addpost" component={PostFormPage} />
-          <Route exact path="/:filter?" render={({location}) =>
+          <Route exact path="/:filter?" render={({location, match:{params}}) =>
               <div className="App">
                 renderApp
                 <Header /> {/*Title*/}
                 {/*<NavBarContainer /> {/*Nav Bar Categories*/}
                 <CategoriesContainer location={location}  /> {/*Nav Bar Categories*/}
                 <SortContainer /> {/*NavBar to sort post by..*/}
-                <RootPageContainer /> {/*postlist*/}
+                <RootPageContainer  filter={params.filter}/> {/*postlist*/}
               </div>
             }
           />

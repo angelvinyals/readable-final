@@ -17,7 +17,14 @@ class CategoriesContainer extends Component {
 				{loading===true && <div>loading....</div> }
 				{error!== null && <span className="error">{error}</span>}
         {categories===[] && <div>there is no CATEGORIES yet</div>}
-				{categories !== undefined && <CategoriesList	categories={categories} />}
+				{categories !== undefined &&
+          <div>
+            <CategoriesList	categories={categories} />
+            <hr className="margin-bottom04em margin-top04em"/>
+          </div>
+
+        }
+
 	    </div>
 		)
 	}

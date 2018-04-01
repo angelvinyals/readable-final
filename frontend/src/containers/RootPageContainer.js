@@ -12,12 +12,19 @@ class RootPageContainer extends Component {
   }
 
   render() {
-    const {posts}= this.props
-    console.log(posts)
+    const {posts,isPostsLoading,errorLoadingPosts}= this.props
     return (
-      <ul>
-          {posts.map((p) => <PostView post={p} key={p.id} homeFlag />)}
-      </ul>
+      <div>
+        {isPostsLoading === true && <div>loading....</div> }
+        {errorLoadingPosts !== null && <span className="error">Ohh... threre is an error loading posts</span>}
+        {posts===[] && <div>there is no POSTS yet</div>}
+        {errorLoadingPosts === null &&
+          <ul>
+            {posts.map((p) => <PostView post={p} key={p.id} homeFlag />)}
+          </ul>
+        }
+      </div>
+
     );
   }
 }
@@ -26,11 +33,13 @@ RootPageContainer.propTypes = {
   posts: PropTypes.array.isRequired,
 };
 
-const mapStateToProps = ({postsReducer}) => ({
-  loadingPostsError: postsReducer.postStatus.error,
+const mapStateToProps = ({postsReducer}, {filter}) => {
+  console.log(filter)
+  return ({
+  errorLoadingPosts: postsReducer.postStatus.error,
   isPostsLoading: postsReducer.postStatus.loading,
-  posts: getFilteredPosts(postsReducer),
-});
+  posts: getFilteredPosts(postsReducer,filter),
+})};
 
 const mapDispatchToProps = dispatch => ({
   getPosts: () => dispatch(fetchPosts()),

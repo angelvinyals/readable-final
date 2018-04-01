@@ -1,5 +1,6 @@
-export const getFilteredPosts = (postsReducer) => {
+export const getFilteredPosts = (postsReducer, CategoryFilter) => {
   console.log(postsReducer)
+  console.log(CategoryFilter)
   if (postsReducer.postStatus.loading === true || postsReducer.postStatus.error === true) {
     return [];
   }
@@ -8,11 +9,15 @@ export const getFilteredPosts = (postsReducer) => {
     return [];
   }
 
-  let postNotDeleted = [];
+  let postArrayFilteredByCategoryNotDeleted = [];
   const postArray = convertPostObjToArray(postsReducer);
-    postNotDeleted = postArray.filter(p => p.deleted === false);
+  if (CategoryFilter === undefined) {
+    postArrayFilteredByCategoryNotDeleted =  postArray.filter(p => p.deleted === false);
+  } else {
+    postArrayFilteredByCategoryNotDeleted =  postArray.filter(p => p.deleted === false && p.category === CategoryFilter);
+  }
 
-  return postNotDeleted;
+  return postArrayFilteredByCategoryNotDeleted;
 };
 
 export const convertPostObjToArray = postObj =>
