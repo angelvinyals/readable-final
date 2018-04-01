@@ -6,7 +6,11 @@ import Header from '../components/Header';
 class PostPageContainer extends Component {
   render() {
     return (
-      <Header />
+      <div>
+        PostPageContainer
+        <Header />
+      </div>
+
     )
  }
 };

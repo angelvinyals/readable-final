@@ -5,11 +5,14 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import { fetchCategories } from './actions/categoriesActions';
 
-import HomePage            from './components/HomePage';
 import PostFormPage        from './components/PostFormPage';
+import Header              from './components/Header';
 
-import CategoriesPageContainer from './containers/CategoriesPageContainer';
 import PostPageContainer       from './containers/PostPageContainer';
+import SortContainer           from './containers/SortContainer'
+import RootPageContainer       from './containers/RootPageContainer'
+import CategoriesContainer     from './containers/categories/CategoriesContainer'
+
 import './App.css';
 
 class App extends Component {
@@ -22,12 +25,21 @@ class App extends Component {
     return (
       <BrowserRouter>
         <Switch>
-          <Route exact path="/" component={HomePage} />
+          {/*<Route exact path="/" component={HomePage} />*/}
           <Route exact path="/addpost" component={PostFormPage} />
-          <Switch>
-             <Route exact path="/:categoryUrl" component={CategoriesPageContainer} />
-             <Route path="/:categoryUrl/:postId/:postSlug" component={PostPageContainer}/>
-          </Switch>
+          <Route exact path="/:filter?" render={({location}) =>
+              <div className="App">
+                renderApp
+                <Header /> {/*Title*/}
+                {/*<NavBarContainer /> {/*Nav Bar Categories*/}
+                <CategoriesContainer location={location}  /> {/*Nav Bar Categories*/}
+                <SortContainer /> {/*NavBar to sort post by..*/}
+                <RootPageContainer /> {/*postlist*/}
+              </div>
+            }
+          />
+
+        <Route path="/:categoryUrl/:postId/" component={PostPageContainer}/>
         </Switch>
       </BrowserRouter>
     );
