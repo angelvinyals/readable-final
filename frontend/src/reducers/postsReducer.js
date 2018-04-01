@@ -12,6 +12,8 @@ import {
   DELETE_POST,
   DELETE_POST_CANCEL,
 
+  VOTE_POST,
+
 } from '../actions/actionTypes';
 
 const initialState = {
@@ -132,6 +134,14 @@ export default function postsReducer(state = initialState, action){
             idPostToBeDeleted: null
           },
         };
+      case VOTE_POST:
+        return {
+          ...state,
+          [action.id]:{
+            ...state[action.id],
+            voteScore: action.typeUpDown=== 'upVote'? state[action.id].voteScore+1: state[action.id].voteScore-1
+          }
+        }
 
     default:
       return state

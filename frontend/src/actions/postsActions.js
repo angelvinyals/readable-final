@@ -12,6 +12,8 @@ import {
   DELETE_POST,
   DELETE_POST_CANCEL,
 
+  VOTE_POST,
+
 } from './actionTypes'
 
 import { getPosts } from '../utils/api';

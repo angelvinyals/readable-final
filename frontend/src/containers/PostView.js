@@ -8,6 +8,9 @@ import {
   deletePost,
   deletePostCancel,
 } from '../actions/postsActions';
+import {
+  vote,
+} from '../actions/voteActions';
 //import selectItemForDeletion from '../../selectors/selectors';
 
 class PostView extends Component {
@@ -18,12 +21,12 @@ class PostView extends Component {
       error,
       post,
       homeFlag,
-      userVotePost,
       RequestDeletePost,
       requestDeletePostStatus,
       idToMarkAsDeleted,
       confirmedDeletePostRequest,
       cancelDeletePostRequest,
+      votePostRequest,
       commentsFlag,
     } = this.props;
 
@@ -43,9 +46,9 @@ class PostView extends Component {
         </Link>
       </div>
       <div className="margin-bottom04em">
-        <button onClick={() => userVotePost(post.id, 'upVote', 'posts')}>+ </button>
+        <button onClick={() => votePostRequest(post.id, 'upVote')}>+ </button>
         <label className="font-size1em font-bold"> {post.voteScore} </label>
-        <button onClick={() => userVotePost(post.id, 'downVote', 'posts')}> - </button>
+        <button onClick={() => votePostRequest(post.id, 'downVote')}> - </button>
         <label className="font-size07em padding-left1em">
           Submitted {distanceInWordsToNow(post.timestamp)} ago by{' '}{post.author} to{' '}
           <Link to={`/${post.category}`}>
@@ -122,7 +125,8 @@ const mapStateToProps = (state, {posts, homeFlag}) => ({
 const mapDispatchToProps = dispatch => ({
   RequestDeletePost: (id) => {dispatch(deletePostRequest(id));},
   confirmedDeletePostRequest: (id) => {dispatch(deletePost(id))},
-  cancelDeletePostRequest: () => {dispatch(deletePostCancel())}
+  cancelDeletePostRequest: () => {dispatch(deletePostCancel())},
+  votePostRequest:(id,typeUpDown) =>{dispatch(vote(id,typeUpDown,'post'))},
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostView);
