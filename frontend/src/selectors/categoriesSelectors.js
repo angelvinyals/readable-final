@@ -1,24 +1,18 @@
-export const getCategoriesisLoading = ({ categoriesReducer }) =>
-  categoriesReducer.status.loading;
+export const getCategoriesisLoading = ({ status, ...categories}) =>
+  status.loading;
 
-export const getCategoriesFetchError = ({ categoriesReducer }) =>
-  categoriesReducer.status.error;
+export const getCategoriesFetchError = ({ status, ...categories}) =>
+    status.error;
 
-export const getCategories = ({ categoriesReducer }) => {
-  if (categoriesReducer.status.error === true) {
+export const getCategoriesFromStore = ({ status, ...categories}) => {
+  if (status.error === true) {
     return [];
   }
 
-  return Object.keys(categoriesReducer)
-    .filter(key => key !== 'status')
+  return Object.keys(categories)
     .map(key => ({
       id: key,
-      name: categoriesReducer[key].name,
-      path: categoriesReducer[key].path,
+      name: categories[key].name,
+      path: categories[key].path,
     }));
-};
-
-export const validCategoryUrl = ({ categoriesReducer }, urlParam) => {
-  if (categoriesReducer[urlParam] !== undefined) return true;
-  return false;
 };

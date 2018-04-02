@@ -8,20 +8,21 @@ import {
   SORT_BY_HIGHEST_VOTE,
   SORT_BY_LOWEST_VOTE,
 
-  DELETE_POST_REQUEST,
-  DELETE_POST,
-  DELETE_POST_CANCEL,
-
-  VOTE_POST,
+  DELETE_POST_BEGIN,
+  DELETE_POST_SUCCESS,
+  DELETE_POST_ERROR,
 
 } from './actionTypes'
 
-import { getPosts } from '../utils/api';
+import { getPosts, deletePost } from '../utils/api';
+
+
+//FETCH POSTS...............................................
 
 export const fetchPosts = () => {
   return dispatch => {
     dispatch(fetchPostsBegin());
-    return getPosts()
+    getPosts()
       .then(posts => dispatch(fetchPostsSuccess(posts)))
       .catch(error => dispatch(fetchPostsError(error)));
   }
@@ -31,10 +32,13 @@ export const fetchPostsBegin = () => ({
   type: FETCH_POSTS_BEGIN,
 });
 
-export const fetchPostsSuccess = posts => ({
+export const fetchPostsSuccess = posts => {
+  console.log(posts)
+  return{
   type: FETCH_POSTS_SUCCESS,
   posts
-});
+  }
+};
 
 export const fetchPostsError = error => {
   console.log(error)
@@ -65,17 +69,31 @@ export const userRequestSortByLowestVote = () => ({
 });
 
 //DELETE POSTS.......................................
-export const deletePostRequest = id => ({
-  type: DELETE_POST_REQUEST,
-  id,
+
+export const deletePostToServer = (id) => {
+  return dispatch => {
+    dispatch(deletePostBegin());
+    deletePost(id)
+      .then(post => dispatch(deletePostSuccess(post)))
+      .catch(error => dispatch(deletePostError(error)));
+  }
+}
+
+export const deletePostBegin = () => ({
+  type: DELETE_POST_BEGIN,
 });
 
-export const deletePost = id => ({
-  type: DELETE_POST,
-  id,
-});
+export const deletePostSuccess = post => {
+  console.log(post.id)
+  return{
+  type: DELETE_POST_SUCCESS,
+  id: post.id
+  }
+};
 
-export const deletePostCancel = id => ({
-  type: DELETE_POST_CANCEL,
-  id,
-});
+export const deletePostError = error => {
+  console.log(error)
+  return({
+    type: DELETE_POST_ERROR,
+  })
+};;

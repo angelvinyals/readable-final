@@ -4,12 +4,12 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
 import {
-  deletePostRequest,
-  deletePost,
-  deletePostCancel,
+  deletePostToServer,
+  //deletePost,
+  //deletePostCancel,
 } from '../actions/postsActions';
 import {
-  vote,
+  addVote,
 } from '../actions/voteActions';
 //import selectItemForDeletion from '../../selectors/selectors';
 
@@ -49,10 +49,10 @@ class PostView extends Component {
         <button onClick={() => votePostRequest(post.id, 'upVote')}>+ </button>
         <label className="font-size1em font-bold"> {post.voteScore} </label>
         <button onClick={() => votePostRequest(post.id, 'downVote')}> - </button>
-        <label className="font-size07em padding-left1em">
+        <label className="font-size07em padding-left1em padding-rigth1em">
           Submitted {distanceInWordsToNow(post.timestamp)} ago by{' '}{post.author} to{' '}
           <Link to={`/${post.category}`}>
-            {`r/${post.category}`}
+            {`${post.category}`}
           </Link>
         </label>
         <Link to="/newpost">
@@ -74,18 +74,14 @@ class PostView extends Component {
       </div>
       {!homeFlag && post.body}
       <div>
-
         <hr className=" margin-bottom04em margin-top04em hr-dashed"/>
         <Link to={`/${post.category}/${post.id}`}>
           {post.commentCount} comments
         </Link>
         {commentsFlag && (
-          <Fragment>
-
             <div>Comments:</div>
-          </Fragment>
         )}
-          <hr className="margin-bottom04em margin-top04em hr-dashed-bold"/>
+        <hr className="margin-bottom04em margin-top04em hr-dashed-bold"/>
       </div>
 
     </div>
@@ -123,10 +119,10 @@ const mapStateToProps = (state, {posts, homeFlag}) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  RequestDeletePost: (id) => {dispatch(deletePostRequest(id));},
-  confirmedDeletePostRequest: (id) => {dispatch(deletePost(id))},
-  cancelDeletePostRequest: () => {dispatch(deletePostCancel())},
-  votePostRequest:(id,typeUpDown) =>{dispatch(vote(id,typeUpDown,'post'))},
+  RequestDeletePost: (id) => {dispatch(deletePostToServer(id));},
+  ///confirmedDeletePostRequest: (id) => {dispatch(deletePost(id))},
+  //cancelDeletePostRequest: () => {dispatch(deletePostCancel())},
+  votePostRequest:(id,typeUpDown) =>{dispatch(addVote(id,'post',typeUpDown))},
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostView);

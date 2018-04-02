@@ -132,9 +132,15 @@ button{
 .padding-left1em{
   padding-left: 1em;
 }
-
 .padding-left-10px{
   padding-left: -10px;
+}
+
+.padding-rigth0{
+  padding-right: 0px;
+}
+.padding-rigth1em{
+  padding-right: 1em;
 }
 
 .hr-solid{

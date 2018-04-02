@@ -5,12 +5,12 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import { fetchCategories } from './actions/categoriesActions';
 
-import PostFormPage        from './components/PostFormPage';
+//import PostFormPage        from './components/PostFormPage';
 import Header              from './components/Header';
 
-import PostPageContainer       from './containers/PostPageContainer';
+import PostAddContainer       from './containers/PostAddContainer';
 import SortContainer           from './containers/SortContainer'
-import RootPageContainer       from './containers/RootPageContainer'
+import PostsListContainer       from './containers/PostsListContainer'
 import CategoriesContainer     from './containers/categories/CategoriesContainer'
 
 import './App.css';
@@ -25,21 +25,27 @@ class App extends Component {
     return (
       <BrowserRouter>
         <Switch>
-          {/*<Route exact path="/" component={HomePage} />*/}
-          <Route exact path="/addpost" component={PostFormPage} />
+          {/*<Route exact path="/addpost" component={PostFormPage} />*/}
+          <Route exact path="/addpost" render={({history}) =>
+              <div className="App">
+                renderApp- addpost
+                <Header /> {/*Title*/}
+                <PostAddContainer history={history} /> {/*form to add post*/}
+              </div>
+            }
+          />
           <Route exact path="/:filter?" render={({location, match:{params}}) =>
               <div className="App">
                 renderApp
                 <Header /> {/*Title*/}
-                {/*<NavBarContainer /> {/*Nav Bar Categories*/}
                 <CategoriesContainer location={location}  /> {/*Nav Bar Categories*/}
                 <SortContainer /> {/*NavBar to sort post by..*/}
-                <RootPageContainer  filter={params.filter}/> {/*postlist*/}
+                <PostsListContainer  filter={params.filter}/> {/*postlist*/}
               </div>
             }
           />
 
-        <Route path="/:categoryUrl/:postId/" component={PostPageContainer}/>
+        <Route path="/:categoryUrl/:postId/" component={PostAddContainer}/>
         </Switch>
       </BrowserRouter>
     );

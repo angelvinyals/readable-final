@@ -12,7 +12,18 @@ import {
   DELETE_POST,
   DELETE_POST_CANCEL,
 
+  DELETE_POST_BEGIN,
+  DELETE_POST_SUCCESS,
+  DELETE_POST_ERROR,
+
   VOTE_POST,
+  VOTE_POST_BEGIN,
+  VOTE_POST_TO_SERVER_SUCCESS,
+  VOTE_POST_TO_SERVER_ERROR,
+
+  ADD_POST_BEGIN,
+  ADD_POST_TO_SERVER_SUCCESS,
+  ADD_POST_TO_SERVER_ERROR,
 
 } from '../actions/actionTypes';
 
@@ -38,6 +49,7 @@ export default function postsReducer(state = initialState, action){
       return{
         ...state,
         postStatus:{
+          ...state.postStatus,
           loading:true,
           error:null
         }
@@ -47,6 +59,7 @@ export default function postsReducer(state = initialState, action){
         ...state,
         ...posts.reduce((newObj, p) => ({ ...newObj, [p.id]: p }),{}),
         postStatus:{
+          ...state.postStatus,
           loading:false,
           error:null
         }
@@ -55,6 +68,7 @@ export default function postsReducer(state = initialState, action){
       return{
         ...state,
         postStatus:{
+          ...state.postStatus,
           loading:false,
           error: true
         }
@@ -103,6 +117,37 @@ export default function postsReducer(state = initialState, action){
           lowest: true,
         },
       };
+    case DELETE_POST_BEGIN:
+      return{
+        ...state,
+        postStatus:{
+          ...state.postStatus,
+          savingDeletePost:true,
+          error:null
+        }
+      }
+    case DELETE_POST_SUCCESS:
+      return{
+        ...state,
+        [action.id]: {
+          ...state[action.id],
+          deleted: true
+        },
+        postStatus:{
+          ...state.postStatus,
+          savingDeletePost:false,
+          error:null
+        }
+      }
+    case DELETE_POST_ERROR:
+      return{
+        ...state,
+        postStatus:{
+          ...state.postStatus,
+          savingDeletePost:false,
+          error:true
+        }
+      }
     case DELETE_POST_REQUEST:
       return {
         ...state,
@@ -134,6 +179,7 @@ export default function postsReducer(state = initialState, action){
             idPostToBeDeleted: null
           },
         };
+        /*
       case VOTE_POST:
         return {
           ...state,
@@ -142,6 +188,69 @@ export default function postsReducer(state = initialState, action){
             voteScore: action.typeUpDown=== 'upVote'? state[action.id].voteScore+1: state[action.id].voteScore-1
           }
         }
+        */
+      case VOTE_POST_BEGIN:
+        return{
+          ...state,
+          postStatus:{
+            ...state.postStatus,
+            savingVote:true,
+            error:null
+          }
+        }
+
+      case VOTE_POST_TO_SERVER_SUCCESS:
+        return {
+          ...state,
+          [action.id]:{
+            ...state[action.id],
+            voteScore: action.typeUpDow=== 'upVote'? state[action.id].voteScore+1:  state[action.id].voteScore-1,
+          },
+          postStatus:{
+            ...state.postStatus,
+            savingVote:false,
+            error: null,
+          }
+        }
+      case VOTE_POST_TO_SERVER_ERROR:
+        return{
+          ...state,
+          postStatus:{
+            ...state.postStatus,
+            savingPost:false,
+            error: true
+          }
+        }
+      case ADD_POST_BEGIN:
+        return{
+          ...state,
+          postStatus:{
+            ...state.postStatus,
+            savingPost:true,
+            error:null
+          }
+        }
+      case ADD_POST_TO_SERVER_SUCCESS:
+        return {
+          ...state,
+          [action.post.id]:action.post,
+          postStatus:{
+            ...state.postStatus,
+            savingPost:false,
+            error: null
+          }
+        }
+      case ADD_POST_TO_SERVER_ERROR:
+        return{
+          ...state,
+          postStatus:{
+            ...state.postStatus,
+            savingPost:false,
+            error: true
+          }
+        }
+
+
 
     default:
       return state

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from "react-redux";
 import {CategoriesList} from './CategoriesList'
 import {
-  getCategories,
+  getCategoriesFromStore,
   getCategoriesFetchError,
   getCategoriesisLoading,
 } from '../../selectors/categoriesSelectors';
@@ -30,11 +30,11 @@ class CategoriesContainer extends Component {
 	}
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = ({categoriesReducer}) => {
   return {
-		categories: getCategories(state),
-		loading: getCategoriesisLoading(state),
-		error: getCategoriesFetchError(state),
+		categories: getCategoriesFromStore(categoriesReducer),
+		loading: getCategoriesisLoading(categoriesReducer),
+		error: getCategoriesFetchError(categoriesReducer),
 	}
 };
 
