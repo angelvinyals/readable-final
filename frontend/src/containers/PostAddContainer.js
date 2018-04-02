@@ -32,7 +32,7 @@ class PostAddContainer extends Component {
     e.preventDefault()
     const newPostToAdd= this.makeAPost()
     this.props.addThisPost(newPostToAdd)
-    //this.props.history.push(`/`)
+    this.props.history.push(`/`)
 
   }
 
