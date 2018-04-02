@@ -2,15 +2,11 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { fetchPosts } from '../actions/postsActions';
 import { getFilteredPosts} from '../selectors/postsSelectors';
 import PostView from './PostView';
 
 class PostsListContainer extends Component {
 
-  componentDidMount() {
-    this.props.getPosts();
-  }
 
   render() {
     const {posts,isPostsLoading,errorLoadingPosts,adddPostRequest}= this.props
@@ -50,8 +46,5 @@ const mapStateToProps = ({postsReducer}, {filter}) => {
   posts: getFilteredPosts(postsReducer,filter,),
 })};
 
-const mapDispatchToProps = dispatch => ({
-  getPosts: () => dispatch(fetchPosts()),
-});
 
-export default connect(mapStateToProps, mapDispatchToProps)(PostsListContainer);
+export default connect(mapStateToProps)(PostsListContainer);
