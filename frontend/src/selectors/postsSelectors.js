@@ -81,3 +81,33 @@ export const sortPostsByOldestDate = postsArray =>
     }
     return -1;
   });
+
+export const selectPostByPostId = ({ postStatus, sortPosts, ...posts}, postId) => {
+  if (postStatus.error === true) {
+    return [];
+  }
+  console.log(posts)
+  if (posts.lenght===0) {
+    return [];
+  } else{
+    return posts[postId]
+
+  }
+/*
+  if (typeof(posts[postId]) !== undefined) {
+    return Object.keys(posts[postId])
+      .map(key => ({
+        id: key.id,
+        timestamp: key.timestamp,
+        title: key.title,
+        body:key.body,
+        author:key.author,
+        category: key.category,
+        voteScore: key.voteScore,
+        deleted: key.deleted,
+        commentCount: key.commentCount
+      }));
+  }
+*/
+  return [];
+};

@@ -2,11 +2,21 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import PostView from './PostView';
 import distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
+import PostView from './PostView';
+import { selectPostByPostId } from '../selectors/postsSelectors';
+import { fetchComments } from '../actions/commentsActions';
 import '../App.css'
 
 class PostPageContainer extends Component {
+
+  componentWillReceiveProps(nextProps) {
+    const { post, getComments } = this.props;
+    console.log('componentDidMount begins....')
+    console.log('post',post)
+    post && getComments(post.id)
+  }
+
 
   render() {
     console.log(post)
@@ -44,16 +54,18 @@ class PostPageContainer extends Component {
 
 PostPageContainer.propTypes = {
   post: PropTypes.object.isRequired,
+  selectedPost: PropTypes.array,
+  getComments: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = ({postsReducer}, {params}) => {
+const mapStateToProps = ({ postStatus, sortPosts, ...posts}, {params}) => {
   console.log(params)
   return ({
-  post: postsReducer[params.postId]
+  post: posts? posts[params.postId]: {}
 })};
 
 const mapDispatchToProps = dispatch => ({
-  dispatch
+  getComments: payload => dispatch(fetchComments(payload)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostPageContainer);

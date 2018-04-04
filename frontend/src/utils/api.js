@@ -105,3 +105,15 @@ export const saveVote = ({id, postOrComment, option}) => {
     }
     return response;
   }
+
+//GET COMMENTS FOR A SINGLE POST.......................
+
+export const fetchCommentsForSinglePost = payload =>
+  fetch(`${url}/posts/${payload}/comments`, {
+    method: 'GET',
+    headers: {
+      ...headers,
+    },
+  })
+    .then(response => response.json())
+    .then(data => data);
