@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 //import { connect } from 'react-redux';
 import Categories from './containers/categories';
 import Posts from './containers/posts';
+import PostsList from './containers/postsList';
 import './App.css';
 
 const App = () => (
@@ -25,17 +26,13 @@ const App = () => (
       )} />
       <Posts 
       url="http://localhost:3001/posts"
+
       render={({ posts, isLoading }) => (
         <div>
           <h2>Posts</h2>
           {isLoading && <h2>Loading...</h2>}
-
           <ul>
-            {posts.length > 0 && Object.assign(
-              ...Object.keys(posts).map(k => 
-                (<li key={k}>{k}</li>)
-              )
-            )}
+            <PostsList posts={posts}/>
           </ul>
         </div>
       )} />
