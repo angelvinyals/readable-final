@@ -32,7 +32,22 @@ const App = () => (
           <h2>Posts</h2>
           {isLoading && <h2>Loading...</h2>}
           <ul>
-            {Object.keys(posts).length>0 && <PostsList posts={posts}/>}
+            {Object.keys(posts).length>0 &&
+              Object.keys(posts)
+                .map(key => posts[key])
+                .map(p => (
+                  <li key={`p${p.id}`}>
+                    <ul>
+                      {Object.keys(p).map(k =>(
+                          <li key={`${p.id}-${k}`}>
+                            {`${k}: ${p[k]}`}
+                          </li>
+                      ))}
+                    </ul>
+                    <hr/>
+                  </li>
+                ))
+            }
           </ul>
         </div>
       )} />
