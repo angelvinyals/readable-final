@@ -1,18 +1,23 @@
 import React from 'react';
+import uuid from 'uuid';
 
 class Form extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      title: '',
-      body:'',
-      author:'',
-      category:''
+      post:{
+        title: '',
+        body:'',
+        author:'',
+        category:''
+      },
+      isSaving: false
+
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
-  
+
 
   handleChange =(e)=> {
     this.setState({
@@ -23,16 +28,41 @@ class Form extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
     const newPost ={
-      title: this.state.title,
-      body: this.state.body,
-      author: this.state.author,
-      category: this.state.category,
-
-
+      id: uuid.v4(),
+      timestamp: Date.now(),
+      ...this.state.post
     }
     console.log(newPost)
-   
+
   }
+
+    headers = {
+    Authorization: 'what ever you want',
+    'content-type': 'application/json',
+    'cache-control': 'no-cache',
+  };
+
+    _fetch = async () => {
+      const res = await fetch(this.props.url, {
+        method: 'POST',
+        headers: {
+            ...this.headers
+        },
+        body: JSON.stringify(this.newPost)
+      });
+
+      const json = await res.json();
+
+      this.setState({
+        categories: json.categories,
+        isLoading: false,
+      });
+  }
+
+  componentDidMount() {
+      this.setState({ isSaving: true }, this._fetch);
+  }
+
 
   render() {
       return this.props.render(this.state);

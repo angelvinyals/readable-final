@@ -27,7 +27,7 @@ const App = () => (
             ))}
           </ul>
         </div>
-      )} 
+      )}
     />
     <Posts
       url="http://localhost:3001/posts"
@@ -54,13 +54,13 @@ const App = () => (
             }
           </ul>
         </div>
-      )} 
+      )}
     />
     <button >
       add a post
     </button>
     <div className="container">
-      <Form 
+      <Form
         categories={['a props','bb props','ccc props']}
         render={({ categories, isLoading }) => (
           <div>
@@ -86,14 +86,14 @@ const App = () => (
               <label>
                 Pick your category:
                 <select name="category" onChange={this.handleChange}>
-                  {['q','s'].map(cat => <option value={cat}>{cat}</option>)}         
+                  {['p','q'].map(cat => <option value={cat} key={`option${cat}`}>{cat}</option>)}         
                 </select>
               </label>
             </div>
             <input type="submit" value="add a post" />
-            
+
           </div>
-        )} 
+        )}
       />
     </div>
   </div>
