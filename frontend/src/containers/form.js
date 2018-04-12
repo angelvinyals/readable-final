@@ -12,7 +12,7 @@ class Form extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
-  
+
 
   handleChange =(e)=> {
     this.setState({
@@ -32,13 +32,17 @@ class Form extends React.Component {
     }
     alert('An essay was submitted: ' + newPost.title);
     console.log(newPost)
-   
+
   }
 
   render() {
     const {categories} = this.props
     return (
-      <form onSubmit={this.handleSubmit} key="addFormPost">
+      <form
+        onSubmit={this.handleSubmit}
+        key="addFormPost"
+        
+        >
         <div>
           <label>
             Title:
@@ -61,7 +65,7 @@ class Form extends React.Component {
           <label>
             Pick your category:
             <select name="category" onChange={this.handleChange}>
-              {categories.map(cat => <option value={cat}>{cat}</option>)}         
+              {categories.map(cat => <option value={cat}>{cat}</option>)}
             </select>
           </label>
         </div>
