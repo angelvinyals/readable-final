@@ -11,7 +11,8 @@ class Form extends React.Component {
         author:'',
         category:''
       },
-      isSaving: false
+      isSaving: false,
+      categories:['ss','re','uda']
 
     };
     this.handleChange = this.handleChange.bind(this);
@@ -20,12 +21,19 @@ class Form extends React.Component {
 
 
   handleChange =(e)=> {
-    this.setState({
-      [e.target.name] : e.target.value
-    })
+    console.log(e.target)
+    e.persist();
+    this.setState(prevState => ({
+      post:{
+        ...prevState.post,
+        [e.target.name]:e.target.value
+        
+      }
+    }))
   }
 
   handleSubmit(event) {
+    console.log(event)
     event.preventDefault();
     const newPost ={
       id: uuid.v4(),
@@ -33,6 +41,7 @@ class Form extends React.Component {
       ...this.state.post
     }
     console.log(newPost)
+    this.setState({ isSaving: true }, this._fetch(newPost));
 
   }
 
@@ -42,30 +51,37 @@ class Form extends React.Component {
     'cache-control': 'no-cache',
   };
 
-    _fetch = async () => {
+    _fetch = async (postToSave) => {
+      console.log(postToSave)
       const res = await fetch(this.props.url, {
         method: 'POST',
         headers: {
             ...this.headers
         },
-        body: JSON.stringify(this.newPost)
+        body: JSON.stringify(postToSave)
       });
 
       const json = await res.json();
-
+      console.log(json)
       this.setState({
-        categories: json.categories,
-        isLoading: false,
+        post: json,
+        isSaving: false,
       });
   }
 
-  componentDidMount() {
-      this.setState({ isSaving: true }, this._fetch);
-  }
-
-
   render() {
-      return this.props.render(this.state);
+
+      return (
+        <form onSubmit={this.handleSubmit}>
+          {this.props.render({
+            isSaving:this.state.isSaving,
+            value:this.state.post.category,
+            handleChange: this.handleChange,
+            categories: this.state.categories,
+            
+          })}
+        </form>
+      )
   }
 }
 

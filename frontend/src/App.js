@@ -8,7 +8,8 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 //import PostFormPage        from './components/PostFormPage';
 import Header              from './components/Header';
-import Categories          from './containers/categories'
+//import Categories          from './containers/categories'
+import HomePage              from './containers/HomePage'
 
 import './App.css';
 
@@ -24,23 +25,7 @@ class App extends Component {
                 <div className="App">
                   renderApp
                   <Header /> {/*Title*/}
-                  <Categories
-                    url="http://localhost:3001/categories"
-                    render={({ categories, isLoading }) => (
-                      <div>
-                        <h2>Categories</h2>
-                        {isLoading && <h2>Loading...</h2>}
-
-                        <ul>
-                          {categories.length > 0 && categories.map(cat => (
-                            <li key={cat.path}>
-                              {cat.name}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )} 
-                  />
+                  <HomePage/>
                 </div>
               }
             />        

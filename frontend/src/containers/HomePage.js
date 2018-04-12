@@ -4,11 +4,11 @@ import React from 'react';
 
 //import { Formik, Form, Field } from "formik";
 //import yup from "yup";
-import Categories from './containers/categories';
-import Posts from './containers/posts';
-import Form from './containers/form-props-render';
+import Categories from './categories';
+import Posts from './posts';
+import Form from './form-props-render';
 
-import './App.css';
+//import './App.css';
 
 const HomePage = () => (
   <div>
@@ -60,41 +60,40 @@ const HomePage = () => (
       add a post
     </button>
     <div className="container">
-      <Form 
-        categories={['a props','bb props','ccc props']}
-        render={({ categories, isLoading }) => (
+      <Form         
+        url="http://localhost:3001/posts"
+        render={({handleChange, categories, isLoading,value }) => (
           <div>
             <div>
               <label>
                 Title:
-                <input type="text" name="title" onChange={this.handleChange} />
+                <input type="text" name="title" onChange={handleChange} />
               </label>
             </div>
             <div>
               <label>
                 Post:
-                <textarea name="body" onChange={this.handleChange} />
+                <textarea name="body" onChange={handleChange} />
               </label>
             </div>
             <div>
               <label>
                 Author:
-                <input type="text" name="author" onChange={this.handleChange} />
+                <input type="text" name="author" onChange={handleChange} />
               </label>
             </div>
             <div>
               <label>
                 Pick your category:
-                <select name="category" onChange={this.handleChange}>
-                  {['q','s'].map(cat => <option value={cat}>{cat}</option>)}         
+                <select name="category" onChange={handleChange} value={value}>
+                  {categories.map(cat => <option key={cat} value={cat}>{cat}</option>)}         
                 </select>
               </label>
             </div>
-            <input type="submit" value="add a post" />
-            
+            <input type="submit" value="add a post" />            
           </div>
         )} 
-      />
+      />   
     </div>
   </div>
 )
