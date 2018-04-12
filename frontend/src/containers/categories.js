@@ -34,6 +34,8 @@ class Categories extends React.Component {
 	      categories: json.categories,
 	      isLoading: false,
 	    });
+
+	    this.props.categ(json.categories)//passing categories to homepage's state
 	}
 
 	componentDidMount() {
@@ -41,7 +43,7 @@ class Categories extends React.Component {
 	}
 
 	render() {
-	    return this.props.render(this.state);
+	    return this.props.render(this.state, this.props);
 	}
 }
 

@@ -9,10 +9,10 @@ class Form extends React.Component {
         title: '',
         body:'',
         author:'',
-        category:''
+        category:'react'
       },
       isSaving: false,
-      categories:['ss','re','uda']
+      
 
     };
     this.handleChange = this.handleChange.bind(this);
@@ -76,10 +76,9 @@ class Form extends React.Component {
           {this.props.render({
             isSaving:this.state.isSaving,
             value:this.state.post.category,
-            handleChange: this.handleChange,
-            categories: this.state.categories,
-            
-          })}
+            handleChange: this.handleChange,           
+          },
+          this.props)}
         </form>
       )
   }
