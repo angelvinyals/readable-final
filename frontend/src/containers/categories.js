@@ -14,7 +14,7 @@ class Categories extends React.Component {
 	};
 
   	headers = {
-		Authorization: 'some-token',
+		'Authorization': 'whatever-you-want',
 		'content-type': 'application/json',
 		'cache-control': 'no-cache',
 	};
@@ -30,12 +30,12 @@ class Categories extends React.Component {
 
 	    const json = await res.json();
 
-	    this.setState({
+	    await this.setState({
 	      categories: json.categories,
 	      isLoading: false,
 	    });
 
-	    this.props.categ(json.categories)//passing categories to homepage's state
+	    await this.props.categ(json.categories)//passing categories to homepage's state
 	}
 
 	componentDidMount() {

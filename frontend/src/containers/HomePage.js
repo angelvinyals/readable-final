@@ -15,7 +15,8 @@ class HomePage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      categ:[]
+      categ:[],
+      posts:[]
 
     };
     this.handleCategories = this.handleCategories.bind(this);
@@ -28,19 +29,33 @@ class HomePage extends React.Component {
       
   }
 
+  handleNewPost = (newPost) =>{
+    console.log(newPost)
+    this.setState(prevState => ({
+      posts:[
+        ...prevState.posts,
+        newPost
+      ]      
+    }))      
+  }
+
   render(props){
     return(
     <div>
       <Categories
         categ= {this.handleCategories}
         url="http://localhost:3001/categories"
-        render={({ categories, isLoading },{categ}) => (
+        render={({ categories, isLoading },{categ}) => {
+          if(categories.length===0){return null}
+
+          return(
           <div>
             <h2>Categories</h2>
             {isLoading && <h2>Loading...</h2>}
+            {console.log(JSON.stringify(isLoading))}
             {console.log(JSON.stringify(categ))}
             {console.log(JSON.stringify(categories))}
-            {console.log(JSON.stringify(isLoading))}
+            
             <ul>
               {categories.length > 0 && categories.map(cat => (
                 <li key={cat.path}>
@@ -49,7 +64,8 @@ class HomePage extends React.Component {
               ))}
             </ul>
           </div>
-        )} 
+        )}
+        } 
       />
       <Posts
         url="http://localhost:3001/posts"
@@ -83,7 +99,8 @@ class HomePage extends React.Component {
       </button>
       <div className="container">
         <Form 
-          categ= {this.state.categ}        
+          categ= {this.state.categ} 
+          newPost={this.handleNewPost}   
           url="http://localhost:3001/posts"
           render={({handleChange, isLoading,value },{categ}) => (
             <div>

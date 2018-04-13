@@ -41,12 +41,13 @@ class Form extends React.Component {
       ...this.state.post
     }
     console.log(newPost)
-    this.setState({ isSaving: true }, this._fetch(newPost));
+    this.setState({ isSaving: true });
+    this._fetch(newPost)
 
   }
 
     headers = {
-    Authorization: 'what ever you want',
+    'Authorization': 'whatever-you-want',
     'content-type': 'application/json',
     'cache-control': 'no-cache',
   };
@@ -62,11 +63,9 @@ class Form extends React.Component {
       });
 
       const json = await res.json();
-      console.log(json)
-      this.setState({
-        post: json,
-        isSaving: false,
-      });
+      await console.log(json)
+      await this.setState({ isSaving: false})
+      await this.props.newPost(json)
   }
 
   render() {
@@ -75,7 +74,6 @@ class Form extends React.Component {
         <form onSubmit={this.handleSubmit}>
           {this.props.render({
             isSaving:this.state.isSaving,
-            value:this.state.post.category,
             handleChange: this.handleChange,           
           },
           this.props)}

@@ -14,7 +14,7 @@ class Posts extends React.Component {
 	};
 
   	headers = {
-		Authorization: 'some-token',
+		'Authorization': 'whatever-you-want',
 		'content-type': 'application/json',
 		'cache-control': 'no-cache',
 	};
