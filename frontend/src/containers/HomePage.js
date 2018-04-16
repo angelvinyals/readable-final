@@ -6,6 +6,7 @@ import React from 'react';
 //import yup from "yup";
 import Categories from './categories';
 import Posts from './posts';
+import Sorting from './sorting';
 import Form from './form-props-render';
 
 //import './App.css';
@@ -16,10 +17,17 @@ class HomePage extends React.Component {
     super(props);
     this.state = {
       categ:[],
-      posts:[]
+      posts:[],
+      sortingPosts:{
+        newestFirst:false,
+        oldestFirst: true,
+        mostVotedFirst:false,
+        minusVotedFirst: false,
+      }
 
     };
     this.handleCategories = this.handleCategories.bind(this);
+    this.handleClickButton = this.handleClickButton.bind(this); 
   }
 
   handleCategories(newCateg){
@@ -43,10 +51,66 @@ class HomePage extends React.Component {
   handleFetchingPost = (posts) =>{
     console.log('handleFetchingPost begin....')
     console.log(posts)
+    const filteredPosts= this.notDeletedPosts(posts)
     this.setState({
-      posts:posts      
+      posts:filteredPosts      
     })     
   }
+
+  notDeletedPosts = (posts) =>{    
+      console.log('not deleted posts begins')
+      const postsIsDeletedFalse= posts.filter(post => post.deleted===false)
+      return postsIsDeletedFalse    
+  }
+
+  sortingPosts =(posts)=>{
+    if(posts){
+      const {newestFirst, oldestFirst, mostVotedFirst, minusVotedFirst,}=this.state.sortingPosts
+      let sortPosts = []
+      switch(true) {        
+        case newestFirst:
+            console.log('newest first')
+            return posts.sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp))
+            break;
+        case oldestFirst:
+            console.log('oldest first')
+            return posts.sort((a,b) => new Date(a.timestamp) - new Date(b.timestamp))
+            break;
+        case mostVotedFirst:
+            console.log('most Voted first')
+            return posts.sort((a,b) =>  b.voteScore - a.voteScore)
+            break;
+        case minusVotedFirst:
+            console.log('minus Voted first')
+            return posts.sort((a,b) => a.voteScore - b.voteScore)
+            break;
+        default:
+            return
+      }
+    } else {
+      return (
+        console.log('there is no posts to sort')
+      )
+    } 
+  }
+
+  handleClickButton(e){
+    e.preventDefault();
+    let sortingState = this.state.sortingPosts
+    for(let key in sortingState) {
+      if(key === e.target.value) {
+          sortingState[key] = true;
+      } else {
+        sortingState[key] = false;
+      }
+    }
+    this.setState({
+      sortingPosts:sortingState
+    })
+    this.sortingPosts(this.state.posts)
+  }
+
+  
 
   render(props){
     return(
@@ -76,6 +140,20 @@ class HomePage extends React.Component {
         )}
         } 
       />
+      <Sorting
+        type = {this.state.sortingPosts}
+        render={() => {
+           return(
+            <div>
+              <button onClick={this.handleClickButton} value="newestFirst">New</button>
+              <button onClick={this.handleClickButton} value="oldestFirst">Oldest</button>
+              <button onClick={this.handleClickButton} value="mostVotedFirst">+ Voted</button>
+              <button onClick={this.handleClickButton} value="minusVotedFirst">- Voted</button>
+            </div>
+
+        )}  
+        }
+      />  
       <Posts
         url="http://localhost:3001/posts"
         fetchingPosts={this.handleFetchingPost} 
@@ -83,8 +161,9 @@ class HomePage extends React.Component {
           <div>
             <h2>Posts</h2>
             {isLoading && <h2>Loading...</h2>}
+            
             <ul>
-              {Object.keys(this.state.posts).length>0 &&
+              {this.state.posts.length>0 &&
                 Object.keys(this.state.posts)
                   .map(key => this.state.posts[key])
                   .map(p => (
