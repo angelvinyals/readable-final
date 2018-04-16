@@ -30,6 +30,7 @@ class HomePage extends React.Component {
   }
 
   handleNewPost = (newPost) =>{
+    console.log('handleNewPost begin....')
     console.log(newPost)
     this.setState(prevState => ({
       posts:[
@@ -37,6 +38,14 @@ class HomePage extends React.Component {
         newPost
       ]      
     }))      
+  }
+
+  handleFetchingPost = (posts) =>{
+    console.log('handleFetchingPost begin....')
+    console.log(posts)
+    this.setState({
+      posts:posts      
+    })     
   }
 
   render(props){
@@ -69,14 +78,15 @@ class HomePage extends React.Component {
       />
       <Posts
         url="http://localhost:3001/posts"
-        render={({ posts, isLoading }) => (
+        fetchingPosts={this.handleFetchingPost} 
+        render={({isLoading }) => (
           <div>
             <h2>Posts</h2>
             {isLoading && <h2>Loading...</h2>}
             <ul>
-              {Object.keys(posts).length>0 &&
-                Object.keys(posts)
-                  .map(key => posts[key])
+              {Object.keys(this.state.posts).length>0 &&
+                Object.keys(this.state.posts)
+                  .map(key => this.state.posts[key])
                   .map(p => (
                     <li key={`p${p.id}`}>
                       <ul>

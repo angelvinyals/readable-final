@@ -29,11 +29,10 @@ class Posts extends React.Component {
 	    });
 
 	    const json = await res.json();
-
-	    this.setState({
-	      posts: Object.assign({}, ...(json.map(p=> ({ [p.id]:p })))),	      	
-	      isLoading: false,
-	    });
+		await console.log(json)
+      	await this.setState({ isLoading: false})
+      	await this.props.fetchingPosts(json)
+	    
 	}
 
 	componentDidMount() {
@@ -41,7 +40,7 @@ class Posts extends React.Component {
 	}
 
 	render() {
-	    return this.props.render(this.state);
+	    return this.props.render(this.state,this.props);
 	}
 }
 
