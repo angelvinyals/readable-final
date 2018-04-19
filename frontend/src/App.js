@@ -22,13 +22,21 @@ class App extends Component {
         <Switch>
           {/*<Route exact path="/addpost" component={PostFormPage} />*/}
           <Route exact path="/:filter?" render={({posts,location, match:{params}}) =>
-                <div className="App">
-                  renderApp
-                  <Header /> {/*Title*/}
-                  <HomePage/>
-                </div>
-              }
-            />        
+            <div className="App">
+              renderApp
+              <Header /> {/*Title*/}
+              <HomePage/>
+            </div>
+            }
+          /> 
+          <Route exact path="/post/:id" render={({posts,location, match:{params}}) =>
+            <div className="App">
+              renderApp
+              <Header /> {/*Title*/}
+              
+            </div>
+            }
+          />       
         </Switch>
       </BrowserRouter>
     );

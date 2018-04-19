@@ -6,6 +6,7 @@ import React from 'react';
 //import yup from "yup";
 import Categories from './categories';
 import Posts from './posts';
+import Comments from  './comments'
 import Sorting from './sorting';
 import Form from './form-props-render';
 
@@ -18,16 +19,23 @@ class HomePage extends React.Component {
     this.state = {
       categ:[],
       posts:[],
+      postsfiltered:[],
       sortingPosts:{
         newestFirst:false,
         oldestFirst: true,
         mostVotedFirst:false,
         minusVotedFirst: false,
-      }
+      },
+      viewFormAddPost:false,
+      viewPostDetails:'',
+      comments:[]
 
     };
     this.handleCategories = this.handleCategories.bind(this);
-    this.handleClickButton = this.handleClickButton.bind(this); 
+    this.handleClickButton = this.handleClickButton.bind(this);
+    this.handleClickCategories = this.handleClickCategories.bind(this); 
+    this.handleClickToogleForm = this.handleClickToogleForm.bind(this);
+    this.handleClickPostTitle = this.handleClickPostTitle.bind(this);
   }
 
   handleCategories(newCateg){
@@ -53,7 +61,8 @@ class HomePage extends React.Component {
     console.log(posts)
     const filteredPosts= this.notDeletedPosts(posts)
     this.setState({
-      posts:filteredPosts      
+      posts:filteredPosts,
+      postsfiltered: filteredPosts      
     })     
   }
 
@@ -110,6 +119,64 @@ class HomePage extends React.Component {
     this.sortingPosts(this.state.posts)
   }
 
+  handleClickCategories(e){
+     e.preventDefault();
+     const {posts, postsfiltered}=this.state
+     if(posts){    
+      switch(e.target.value) {        
+        case 'all':
+            console.log('case all categories selected')
+            return this.setState({
+              postsfiltered: posts
+              })
+            break;
+        case 'react':
+            console.log('case react category selected')
+            return this.setState({
+              postsfiltered: posts.filter(post => post.category=== 'react')
+              })
+            break;
+        case 'redux':
+            console.log('case redux category selected')
+            return this.setState({
+              postsfiltered: posts.filter(post => post.category=== 'redux')
+              })
+            break;
+        case 'udacity':
+            console.log('case udacity category selected')
+            return this.setState({
+              postsfiltered: posts.filter(post => post.category=== 'udacity')
+              })
+            break;
+      default:
+            return
+      }
+    } else {
+      return (
+        console.log('there is no posts to sort')
+      )
+    } 
+  }
+
+  handleClickToogleForm(){
+    console.log('handleClickToogleForm begins....')
+    this.setState({ viewFormAddPost: !this.state.viewFormAddPost })
+  }
+
+  handleClickPostTitle(e){
+    console.log('handleClickPostTitle begins...')
+    e.preventDefault()
+    console.log(e.target.value)
+    this.setState({ viewPostDetails: e.target.value })
+  }
+
+  handleFetchingComments = (comments) =>{
+    console.log('handleFetchingComments begin....')
+    console.log(comments)
+    this.setState({
+      comments: comments
+    })     
+  }
   
 
   render(props){
@@ -120,22 +187,16 @@ class HomePage extends React.Component {
         url="http://localhost:3001/categories"
         render={({ categories, isLoading },{categ}) => {
           if(categories.length===0){return null}
-
           return(
           <div>
             <h2>Categories</h2>
-            {isLoading && <h2>Loading...</h2>}
-            {console.log(JSON.stringify(isLoading))}
-            {console.log(JSON.stringify(categ))}
-            {console.log(JSON.stringify(categories))}
-            
-            <ul>
-              {categories.length > 0 && categories.map(cat => (
-                <li key={cat.path}>
-                  {cat.name}
-                </li>
+            {isLoading && <h2>Loading...</h2>}            
+            <div>
+              <button onClick={this.handleClickCategories} value='all'>all</button>
+              {categories.length > 0 && categories.map(cat => (             
+                  <button onClick={this.handleClickCategories} value={cat.name}>{cat.name}</button>    
               ))}
-            </ul>
+            </div>
           </div>
         )}
         } 
@@ -153,7 +214,49 @@ class HomePage extends React.Component {
 
         )}  
         }
-      />  
+      /> 
+      <button onClick={this.handleClickToogleForm} value="toogleForm">see form to add a post</button>
+      {this.state.viewFormAddPost &&    
+        <div className="container">
+          <Form 
+            categ= {this.state.categ} 
+            newPost={this.handleNewPost}   
+            url="http://localhost:3001/posts"
+            render={({handleChange, isLoading,value },{categ}) => (
+              <div>
+                {console.log(categ)}
+                <div>
+                  <label>
+                    Title:
+                    <input type="text" name="title" onChange={handleChange} />
+                  </label>
+                </div>
+                <div>
+                  <label>
+                    Post:
+                    <textarea name="body" onChange={handleChange} />
+                  </label>
+                </div>
+                <div>
+                  <label>
+                    Author:
+                    <input type="text" name="author" onChange={handleChange} />
+                  </label>
+                </div>
+                <div>
+                  <label>
+                    Pick your category:
+                    <select name="category" onChange={handleChange} value={value}>
+                      {categ.map(cat => <option key={cat.name} value={cat.name}>{cat.name}</option>)}         
+                    </select>
+                  </label>
+                </div>
+                <input type="submit" value="add a post" />            
+              </div>
+            )} 
+          />   
+        </div>
+      } 
       <Posts
         url="http://localhost:3001/posts"
         fetchingPosts={this.handleFetchingPost} 
@@ -163,68 +266,46 @@ class HomePage extends React.Component {
             {isLoading && <h2>Loading...</h2>}
             
             <ul>
-              {this.state.posts.length>0 &&
-                Object.keys(this.state.posts)
-                  .map(key => this.state.posts[key])
-                  .map(p => (
+              {this.state.postsfiltered.length>0 &&
+                Object.keys(this.state.postsfiltered)
+                  .map(key => this.state.postsfiltered[key])
+                  .map((p, index) => (
                     <li key={`p${p.id}`}>
                       <ul>
                         {Object.keys(p).map(k =>(
-                            <li key={`${p.id}-${k}`}>
-                              {`${k}: ${p[k]}`}
-                            </li>
+                            k==='title'? 
+                              <li key={`${p.id}-${k}`}>
+                                <button  onClick={this.handleClickPostTitle} value={`${p.id}`}>{`${k}: ${p[k]}`}</button>
+                              </li>                       
+                            :
+                              <li key={`${p.id}-${k}`}>
+                                {`${k}: ${p[k]}`}
+                              </li>
                         ))}
                       </ul>
                       <hr/>
                     </li>
-                  ))
+                  ))               
+                
+              }
+              {this.state.viewPostDetails.length>0 && 
+
+                    <Comments
+                      url={`http://localhost:3001/posts/${this.state.viewPostDetails}/comments`}
+                      fetchingComments={this.handleFetchingComments} 
+                      postId= {this.state.viewPostDetails}
+                      render={()=>(
+                          <div>
+                            <h2>Comments</h2>
+                          </div>
+                        )}
+                    />
               }
             </ul>
           </div>
         )} 
       />
-      <button >
-        add a post
-      </button>
-      <div className="container">
-        <Form 
-          categ= {this.state.categ} 
-          newPost={this.handleNewPost}   
-          url="http://localhost:3001/posts"
-          render={({handleChange, isLoading,value },{categ}) => (
-            <div>
-              {console.log(categ)}
-              <div>
-                <label>
-                  Title:
-                  <input type="text" name="title" onChange={handleChange} />
-                </label>
-              </div>
-              <div>
-                <label>
-                  Post:
-                  <textarea name="body" onChange={handleChange} />
-                </label>
-              </div>
-              <div>
-                <label>
-                  Author:
-                  <input type="text" name="author" onChange={handleChange} />
-                </label>
-              </div>
-              <div>
-                <label>
-                  Pick your category:
-                  <select name="category" onChange={handleChange} value={value}>
-                    {categ.map(cat => <option key={cat.name} value={cat.name}>{cat.name}</option>)}         
-                  </select>
-                </label>
-              </div>
-              <input type="submit" value="add a post" />            
-            </div>
-          )} 
-        />   
-      </div>
+      
     </div>
   )}
 } 
