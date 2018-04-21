@@ -36,6 +36,7 @@ class HomePage extends React.Component {
     this.handleClickCategories = this.handleClickCategories.bind(this); 
     this.handleClickToogleForm = this.handleClickToogleForm.bind(this);
     this.handleClickPostTitle = this.handleClickPostTitle.bind(this);
+
   }
 
   handleCategories(newCateg){
@@ -59,48 +60,28 @@ class HomePage extends React.Component {
   handleFetchingPost = (posts) =>{
     console.log('handleFetchingPost begin....')
     console.log(posts)
-    const filteredPosts= this.notDeletedPosts(posts)
+    const postObject = this.arrayToObject(posts,  "id")
+    const filteredPosts= this.notDeletedPosts(posts)    
+    
     this.setState({
-      posts:filteredPosts,
-      postsfiltered: filteredPosts      
-    })     
+      posts:postObject,
+      postsfiltered: filteredPosts     
+    })
+    return console.log(this.state.postsfiltered)     
   }
+
+  arrayToObject = (array, keyField) =>
+   array.reduce((obj, item) => {
+     obj[item[keyField]] = item
+     return obj
+   }, {})
 
   notDeletedPosts = (posts) =>{    
       console.log('not deleted posts begins')
-      const postsIsDeletedFalse= posts.filter(post => post.deleted===false)
-      return postsIsDeletedFalse    
-  }
-
-  sortingPosts =(posts)=>{
-    if(posts){
-      const {newestFirst, oldestFirst, mostVotedFirst, minusVotedFirst,}=this.state.sortingPosts
-      let sortPosts = []
-      switch(true) {        
-        case newestFirst:
-            console.log('newest first')
-            return posts.sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp))
-            break;
-        case oldestFirst:
-            console.log('oldest first')
-            return posts.sort((a,b) => new Date(a.timestamp) - new Date(b.timestamp))
-            break;
-        case mostVotedFirst:
-            console.log('most Voted first')
-            return posts.sort((a,b) =>  b.voteScore - a.voteScore)
-            break;
-        case minusVotedFirst:
-            console.log('minus Voted first')
-            return posts.sort((a,b) => a.voteScore - b.voteScore)
-            break;
-        default:
-            return
-      }
-    } else {
-      return (
-        console.log('there is no posts to sort')
-      )
-    } 
+      const postsIsDeletedFalse=Object.values(posts).filter(post => post.deleted===false)
+      const postObject = this.arrayToObject(postsIsDeletedFalse,  "id")
+      console.log(postObject)
+      return postObject
   }
 
   handleClickButton(e){
@@ -116,12 +97,75 @@ class HomePage extends React.Component {
     this.setState({
       sortingPosts:sortingState
     })
-    this.sortingPosts(this.state.posts)
+    this.sortingPosts(this.state.postsfiltered)
   }
+
+   sortingPosts =(posts)=>{
+    if(posts){
+      const {newestFirst, oldestFirst, mostVotedFirst, minusVotedFirst,}=this.state.sortingPosts
+      let dataOrdered = {}
+      switch(true) {        
+        case newestFirst:
+            console.log('newest first')            
+            dataOrdered= this.dataObject_ordered(posts,'timestamp','ascending')
+            return this.setState({
+              postsfiltered:dataOrdered
+            })
+            
+        case oldestFirst:
+            console.log('oldest first') 
+            dataOrdered= this.dataObject_ordered(posts,'timestamp','descending')       
+            return this.setState({
+              postsfiltered:dataOrdered
+            })
+            
+        case mostVotedFirst:
+            console.log('most Voted first')
+            dataOrdered= this.dataObject_ordered(posts,'voteScore','ascending')       
+            return this.setState({
+              postsfiltered:dataOrdered
+            })
+            
+        case minusVotedFirst:
+            console.log('minus Voted first')
+            dataOrdered= this.dataObject_ordered(posts,'voteScore','descending')       
+            return this.setState({
+              postsfiltered:dataOrdered
+            })
+            
+        default:
+            return
+      }
+    } else {
+      return (
+        console.log('there is no posts to sort')
+      )
+    } 
+  }
+
+
+ 
+  dataObject_ordered = (dataObject,key,sortType) =>{
+    //Object.values(data).sort(this.sortByKey('timestamp'))
+    const ArrayOrdered = Object.values(dataObject).sort(this.sortByKey(key,sortType))
+    return this.arrayToObject(ArrayOrdered, 'id')
+  }
+      
+  sortByKey = (key,typeSort) => {
+    console.log(key, typeSort)
+    if (typeSort==="ascending") {
+      console.log('ascending')
+      return (a,b) => Number(b[key]) - Number(a[key])
+    } else {
+      console.log('descending')
+      return (a,b) => Number(a[key]) - Number(b[key])
+    }
+  } 
+
 
   handleClickCategories(e){
      e.preventDefault();
-     const {posts, postsfiltered}=this.state
+     const {posts}=this.state
      if(posts){    
       switch(e.target.value) {        
         case 'all':
@@ -129,25 +173,25 @@ class HomePage extends React.Component {
             return this.setState({
               postsfiltered: posts
               })
-            break;
+            
         case 'react':
             console.log('case react category selected')
             return this.setState({
               postsfiltered: posts.filter(post => post.category=== 'react')
               })
-            break;
+            
         case 'redux':
             console.log('case redux category selected')
             return this.setState({
               postsfiltered: posts.filter(post => post.category=== 'redux')
               })
-            break;
+            
         case 'udacity':
             console.log('case udacity category selected')
             return this.setState({
               postsfiltered: posts.filter(post => post.category=== 'udacity')
               })
-            break;
+            
       default:
             return
       }
@@ -263,30 +307,27 @@ class HomePage extends React.Component {
         render={({isLoading }) => (
           <div>
             <h2>Posts</h2>
-            {isLoading && <h2>Loading...</h2>}
-            
+            {isLoading && <h2>Loading...</h2>}  
+
             <ul>
-              {this.state.postsfiltered.length>0 &&
-                Object.keys(this.state.postsfiltered)
-                  .map(key => this.state.postsfiltered[key])
-                  .map((p, index) => (
-                    <li key={`p${p.id}`}>
-                      <ul>
-                        {Object.keys(p).map(k =>(
-                            k==='title'? 
-                              <li key={`${p.id}-${k}`}>
-                                <button  onClick={this.handleClickPostTitle} value={`${p.id}`}>{`${k}: ${p[k]}`}</button>
-                              </li>                       
-                            :
-                              <li key={`${p.id}-${k}`}>
-                                {`${k}: ${p[k]}`}
-                              </li>
-                        ))}
-                      </ul>
-                      <hr/>
-                    </li>
-                  ))               
-                
+              {Object.keys(this.state.postsfiltered).length>0 &&
+                Object.values(this.state.postsfiltered).map(p => (                    
+                  <li key={`p${p.id}`}>
+                    <ul>
+                      {Object.keys(p).map(k =>(
+                          k==='title'? 
+                            <li key={`${p.id}-${k}`}>
+                              <button  onClick={this.handleClickPostTitle} value={`${p.id}`}>{`${k}: ${p[k]}`}</button>
+                            </li>                       
+                          :
+                            <li key={`${p.id}-${k}`}>
+                              {`${k}: ${p[k]}`}
+                            </li>
+                      ))}
+                    </ul>
+                    <hr/>
+                  </li>
+                ))              
               }
               {this.state.viewPostDetails.length>0 && 
 

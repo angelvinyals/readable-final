@@ -9,7 +9,7 @@ class Posts extends React.Component {
 	};
 
 	state = {
-	    posts: [],
+	    
 	    isLoading: false,
 	};
 
