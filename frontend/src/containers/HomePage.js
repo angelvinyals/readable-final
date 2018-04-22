@@ -166,6 +166,8 @@ class HomePage extends React.Component {
   handleClickCategories(e){
      e.preventDefault();
      const {posts}=this.state
+     let postbycategory ={}
+     let arrayFilteredbycategory =[]
      if(posts){    
       switch(e.target.value) {        
         case 'all':
@@ -176,20 +178,26 @@ class HomePage extends React.Component {
             
         case 'react':
             console.log('case react category selected')
+            arrayFilteredbycategory =  Object.values(posts).filter(post => post.category=== 'react')
+            postbycategory = this.arrayToObject(arrayFilteredbycategory, 'id')
             return this.setState({
-              postsfiltered: posts.filter(post => post.category=== 'react')
+              postsfiltered:postbycategory
               })
             
         case 'redux':
             console.log('case redux category selected')
+            arrayFilteredbycategory =  Object.values(posts).filter(post => post.category=== 'redux')
+            postbycategory = this.arrayToObject(arrayFilteredbycategory, 'id')
             return this.setState({
-              postsfiltered: posts.filter(post => post.category=== 'redux')
+              postsfiltered:postbycategory
               })
             
         case 'udacity':
             console.log('case udacity category selected')
+            arrayFilteredbycategory =  Object.values(posts).filter(post => post.category=== 'udacity')
+            postbycategory = this.arrayToObject(arrayFilteredbycategory, 'id')
             return this.setState({
-              postsfiltered: posts.filter(post => post.category=== 'udacity')
+              postsfiltered:postbycategory
               })
             
       default:
