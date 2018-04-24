@@ -36,6 +36,7 @@ class HomePage extends React.Component {
     this.handleClickCategories = this.handleClickCategories.bind(this); 
     this.handleClickToogleForm = this.handleClickToogleForm.bind(this);
     this.handleClickPostTitle = this.handleClickPostTitle.bind(this);
+    this.handleClickVotePost = this.handleClickVotePost.bind(this);
 
   }
 
@@ -229,7 +230,33 @@ class HomePage extends React.Component {
       comments: comments
     })     
   }
+
+  handleClickVotePost =(sign,e) =>{
+    console.log('handleClickVotePost')
+    const {postsfiltered} = this.state
+    const postId= e.target.value
+    let oldScore= (postsfiltered[postId].voteScore)
+    let newScore=''
+    if (sign==="+"){
+      newScore = oldScore+1;
+    } else {
+      newScore = oldScore-1;    
+    }
+    return  this.setState({
+      postsfiltered:{
+        ...this.state.postsfiltered,
+        [postId]:{
+          ...this.state.postsfiltered[postId],
+          ["voteScore"]: newScore
+        }
+      }});
+    return
+  }
   
+  handleClickDeletePost =(e) =>{
+    console.log('handleClickDeletePost')
+    console.log(e.target.value)
+  }
 
   render(props){
     return(
@@ -325,7 +352,10 @@ class HomePage extends React.Component {
                       {Object.keys(p).map(k =>(
                           k==='title'? 
                             <li key={`${p.id}-${k}`}>
+                              <button  onClick={(e) => this.handleClickVotePost('+', e)} value={`${p.id}`}>{`+`}</button>
+                              <button  onClick={(e) => this.handleClickVotePost('-', e)} value={`${p.id}`}>{`-`}</button>
                               <button  onClick={this.handleClickPostTitle} value={`${p.id}`}>{`${k}: ${p[k]}`}</button>
+                              <button  onClick={this.handleClickDeletePost} value={`${p.id}`}>{`X`}</button>
                             </li>                       
                           :
                             <li key={`${p.id}-${k}`}>
